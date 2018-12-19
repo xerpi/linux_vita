@@ -274,6 +274,7 @@ config PHYS_OFFSET
 	default 0x10000000 if ARCH_OMAP1 || ARCH_RPC
 	default 0x20000000 if ARCH_S5PV210
 	default 0xc0000000 if ARCH_SA1100
+	default 0x40200000 if ARCH_VITA
 	help
 	  Please provide the physical address corresponding to the
 	  location of main memory in your system.
@@ -513,6 +514,23 @@ config ARCH_OMAP1
 	select SPARSE_IRQ
 	help
 	  Support for older TI OMAP1 (omap7xx, omap15xx or omap16xx)
+
+config ARCH_VITA
+	bool "PlayStation Vita"
+	depends on MMU
+	select CPU_V7
+	select HAVE_SMP
+	select HAVE_ARM_SCU
+	select CACHE_L2X0
+	select TIMER_OF
+	select COMMON_CLK
+	select GENERIC_CLOCKEVENTS
+	select GENERIC_IRQ_MULTI_HANDLER
+	select SPARSE_IRQ
+	select USE_OF
+	select ARM_GIC
+	help
+	  Support for the Sony PlayStation Vita gaming console
 
 endchoice
 
