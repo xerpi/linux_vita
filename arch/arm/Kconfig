@@ -635,6 +635,8 @@ config ARCH_OMAP1
 	help
 	  Support for older TI OMAP1 (omap7xx, omap15xx or omap16xx)
 
+source "arch/arm/mach-vita/Kconfig"
+
 endchoice
 
 menu "Multiple platform selection"

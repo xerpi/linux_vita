@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: GPL-2.0
+config ARCH_VITA
+	bool "PlayStation Vita"
+	depends on MMU
+	select CPU_V7
+	select HAVE_SMP
+	select TIMER_OF
+	select COMMON_CLK
+	select GENERIC_CLOCKEVENTS
+	select GENERIC_IRQ_MULTI_HANDLER
+	select SPARSE_IRQ
+	select USE_OF
+	select ARM_GIC
+	help
+	  Support for the Sony PlayStation Vita gaming console
