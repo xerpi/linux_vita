@@ -1,0 +1,77 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Base Device Tree Source for the PlayStation Vita
+ *
+ * Copyright (C) 2018 Sergi Granell
+ *
+ */
+
+/dts-v1/;
+
+/ {
+	model = "PlayStation Vita";
+	compatible = "vita,vita";
+
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	chosen {
+		bootargs = "keep_bootcon earlyprintk";
+
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		framebuffer0: framebuffer@20000000 {
+			compatible = "simple-framebuffer";
+			reg = <0x20000000 (1280*720*4)>;
+			width = <1280>;
+			height = <720>;
+			stride = <(1280*4)>;
+			format = "a8b8g8r8";
+			status = "okay";
+		};
+	};
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		enable-method = "vita,smp";
+
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a9";
+			reg = <0>;
+		};
+
+		cpu@1 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a9";
+			reg = <1>;
+		};
+
+		cpu@2 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a9";
+			reg = <2>;
+		};
+
+		cpu@3 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a9";
+			reg = <3>;
+		};
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0x40200000 0x1FE00000>;
+	};
+
+	l2: cache-controller@1A002000 {
+		compatible = "arm,pl310-cache";
+		reg = <0x1A002000 0x1000>;
+		cache-unified;
+		cache-level = <2>;
+	};
+};
