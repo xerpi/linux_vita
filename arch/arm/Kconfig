@@ -288,6 +288,7 @@ config PHYS_OFFSET
 	default 0x10000000 if ARCH_OMAP1 || ARCH_RPC
 	default 0xa0000000 if ARCH_PXA
 	default 0xc0000000 if ARCH_EP93XX || ARCH_SA1100
+	default 0x40200000 if ARCH_VITA
 	default 0
 	help
 	  Please provide the physical address corresponding to the
@@ -540,6 +541,8 @@ source "arch/arm/mach-uniphier/Kconfig"
 source "arch/arm/mach-ux500/Kconfig"
 
 source "arch/arm/mach-versatile/Kconfig"
+
+source "arch/arm/mach-vita/Kconfig"
 
 source "arch/arm/mach-vt8500/Kconfig"
 
