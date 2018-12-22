@@ -765,7 +765,7 @@ config SERIAL_CPM
 	depends on CPM2 || CPM1
 	select SERIAL_CORE
 	help
-	  This driver supports the SCC and SMC serial ports on Motorola 
+	  This driver supports the SCC and SMC serial ports on Motorola
 	  embedded PowerPC that contain a CPM1 (8xx) or CPM2 (8xxx)
 
 config SERIAL_CPM_CONSOLE
@@ -1577,6 +1577,19 @@ config SERIAL_NUVOTON_MA35D1_CONSOLE
 	  (/dev/tty0) will still be used as the system console by default,
 	  but you can alter that using a kernel command line option such as
 	  "console=ttyNVTx".
+
+config SERIAL_VITA_UART
+	bool "PlayStation Vita UART support"
+	depends on ARCH_VITA
+	select SERIAL_CORE
+	help
+	  This driver supports the PlayStation Vita UART.
+
+config SERIAL_VITA_UART_CONSOLE
+	bool "PlayStation Vita UART console support"
+	depends on SERIAL_VITA_UART
+	select SERIAL_CORE_CONSOLE
+	select SERIAL_EARLYCON
 
 endmenu
 
