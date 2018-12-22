@@ -5,6 +5,9 @@ config ARCH_VITA
 	select CPU_V7
 	select HAVE_SMP
 	select TIMER_OF
+	select HAVE_ARM_ARCH_TIMER
+	select HAVE_ARM_TWD
+	select ARM_GLOBAL_TIMER
 	select COMMON_CLK
 	select GENERIC_CLOCKEVENTS
 	select GENERIC_IRQ_MULTI_HANDLER
