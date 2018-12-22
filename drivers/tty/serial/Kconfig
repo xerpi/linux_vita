@@ -765,7 +765,7 @@ config SERIAL_CPM
 	depends on CPM2 || CPM1
 	select SERIAL_CORE
 	help
-	  This driver supports the SCC and SMC serial ports on Motorola 
+	  This driver supports the SCC and SMC serial ports on Motorola
 	  embedded PowerPC that contain a CPM1 (8xx) or CPM2 (8xxx)
 
 config SERIAL_CPM_CONSOLE
@@ -1603,6 +1603,19 @@ config SERIAL_ESP32_ACM
 	  When earlycon option is enabled the following kernel command line
 	  snippet may be used:
 	    earlycon=esp32s3acm,mmio32,0x60038000
+
+config SERIAL_VITA_UART
+	bool "PlayStation Vita UART support"
+	depends on ARCH_VITA
+	select SERIAL_CORE
+	help
+	  This driver supports the PlayStation Vita UART.
+
+config SERIAL_VITA_UART_CONSOLE
+	bool "PlayStation Vita UART console support"
+	depends on SERIAL_VITA_UART
+	select SERIAL_CORE_CONSOLE
+	select SERIAL_EARLYCON
 
 endmenu
 
