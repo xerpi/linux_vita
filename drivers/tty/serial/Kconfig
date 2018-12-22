@@ -623,8 +623,8 @@ config PDC_CONSOLE
 	bool "PDC software console support"
 	depends on PARISC && !SERIAL_MUX && VT
 	help
-	  Saying Y here will enable the software based PDC console to be 
-	  used as the system console.  This is useful for machines in 
+	  Saying Y here will enable the software based PDC console to be
+	  used as the system console.  This is useful for machines in
 	  which the hardware based console has not been written yet.  The
 	  following steps must be completed to use the PDC console:
 
@@ -804,7 +804,7 @@ config SERIAL_CPM
 	depends on CPM2 || CPM1
 	select SERIAL_CORE
 	help
-	  This driver supports the SCC and SMC serial ports on Motorola 
+	  This driver supports the SCC and SMC serial ports on Motorola
 	  embedded PowerPC that contain a CPM1 (8xx) or CPM2 (8xxx)
 
 config SERIAL_CPM_CONSOLE
@@ -1598,6 +1598,19 @@ config SERIAL_LITEUART_CONSOLE
 	  (the system console is the device which receives all kernel messages
 	  and warnings and which allows logins in single user mode).
 	  Otherwise, say 'N'.
+
+config SERIAL_VITA_UART
+	bool "PlayStation Vita UART support"
+	depends on ARCH_VITA
+	select SERIAL_CORE
+	help
+	  This driver supports the PlayStation Vita UART.
+
+config SERIAL_VITA_UART_CONSOLE
+	bool "PlayStation Vita UART console support"
+	depends on SERIAL_VITA_UART
+	select SERIAL_CORE_CONSOLE
+	select SERIAL_EARLYCON
 
 endmenu
 
