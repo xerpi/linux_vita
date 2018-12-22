@@ -8,6 +8,8 @@
 
 /dts-v1/;
 
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+
 / {
 	model = "PlayStation Vita";
 	compatible = "vita,vita";
@@ -16,7 +18,13 @@
 	#size-cells = <1>;
 
 	chosen {
-		bootargs = "keep_bootcon earlyprintk";
+		bootargs = "earlyprintk console=ttyS0";
+
+		stdout-path = "/serial@e2030000:115200";
+	};
+
+	aliases {
+		serial0 = &uart0;
 	};
 
 	cpus {
@@ -53,4 +61,46 @@
 		reg = <0x40200000 0x1FE00000>;
 	};
 
+	gic: interrupt-controller@1a001000 {
+		compatible = "arm,cortex-a9-gic";
+		#interrupt-cells = <3>;
+		#address-cells = <0>;
+		interrupt-controller;
+		reg = <0x1a001000 0x1000>,
+		      <0x1a000100 0x1000>;
+	};
+
+	refclk144mhz: refclk144mkhz {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <144000000>;
+		clock-output-names = "refclk144khz";
+	};
+
+	soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "simple-bus";
+		interrupt-parent = <&gic>;
+		ranges;
+
+		uart0: serial@e2030000 {
+			compatible = "vita,vita-uart";
+			reg = <0xe2030000 0x10000>;
+		};
+
+		/*global_timer@1a000200 {
+			compatible = "arm,cortex-a9-global-timer";
+			reg = <0x1a000200 0x100>;
+			interrupts = <GIC_PPI 11 (GIC_CPU_MASK_RAW(0xF) | IRQ_TYPE_EDGE_RISING)>;
+			clocks = <&refclk144mhz>;
+		};*/
+
+		local_timer@1a000600 {
+			compatible = "arm,cortex-a9-twd-timer";
+			reg = <0x1a000600 0x100>;
+			interrupts = <GIC_PPI 13 (GIC_CPU_MASK_RAW(0xF) | IRQ_TYPE_EDGE_RISING)>;
+			clocks = <&refclk144mhz>;
+		};
+	};
 };
