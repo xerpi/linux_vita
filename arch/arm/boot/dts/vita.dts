@@ -30,6 +30,7 @@
 	cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
+		enable-method = "vita,smp";
 
 		cpu@0 {
 			device_type = "cpu";
@@ -59,6 +60,13 @@
 	memory {
 		device_type = "memory";
 		reg = <0x40200000 0x1FE00000>;
+	};
+
+	l2: cache-controller@1A002000 {
+		compatible = "arm,pl310-cache";
+		reg = <0x1A002000 0x1000>;
+		cache-unified;
+		cache-level = <2>;
 	};
 
 	gic: interrupt-controller@1a001000 {
