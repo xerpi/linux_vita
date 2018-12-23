@@ -4,6 +4,8 @@ config ARCH_VITA
 	depends on MMU
 	select CPU_V7
 	select HAVE_SMP
+	select HAVE_ARM_SCU
+	select CACHE_L2X0
 	select TIMER_OF
 	select HAVE_ARM_ARCH_TIMER
 	select HAVE_ARM_TWD
