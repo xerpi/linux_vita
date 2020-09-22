@@ -1335,4 +1335,11 @@ config TOUCHSCREEN_ZINITIX
 	  To compile this driver as a module, choose M here: the
 	  module will be called zinitix.
 
+config TOUCHSCREEN_VITA
+	tristate "PlayStation Vita touchscreen controller support"
+	depends on ARCH_VITA
+	help
+	  This adds support for the touchscreen of the PlayStation Vita.
+
+
 endif
