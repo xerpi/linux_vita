@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Device Tree Source for the PlayStation Vita 1000
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include "vita.dtsi"
+
+/ {
+	chosen {
+		bootargs = "earlyprintk keep_bootcon console=tty0";
+
+		framebuffer0: framebuffer@20000000 {
+			compatible = "simple-framebuffer";
+			reg = <0x20000000 (960*544*4)>;
+			width = <960>;
+			height = <544>;
+			stride = <(960*4)>;
+			format = "a8b8g8r8";
+			status = "okay";
+		};
+	};
+};
