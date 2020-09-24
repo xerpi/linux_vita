@@ -1,14 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
  * Base Device Tree Source for the PlayStation Vita
- *
- * Copyright (C) 2018 Sergi Granell
- *
  */
 
 /dts-v1/;
-
-#include <dt-bindings/interrupt-controller/arm-gic.h>
 
 / {
 	model = "PlayStation Vita";
@@ -18,21 +13,9 @@
 	#size-cells = <1>;
 
 	chosen {
-		bootargs = "earlyprintk console=tty0 console=ttyS0";
-
 		#address-cells = <1>;
 		#size-cells = <1>;
 		ranges;
-
-		framebuffer0: framebuffer@20000000 {
-			compatible = "simple-framebuffer";
-			reg = <0x20000000 (1280*720*4)>;
-			width = <1280>;
-			height = <720>;
-			stride = <(1280*4)>;
-			format = "a8b8g8r8";
-			status = "okay";
-		};
 	};
 
 	aliases {
