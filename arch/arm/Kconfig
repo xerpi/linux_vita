@@ -532,8 +532,11 @@ config ARCH_VITA
 	select ARM_GLOBAL_TIMER
 	select COMMON_CLK
 	select GENERIC_CLOCKEVENTS
+	select GENERIC_IRQ_CHIP
+	select IRQ_DOMAIN
 	select GENERIC_IRQ_MULTI_HANDLER
 	select SPARSE_IRQ
+	select PINCTRL
 	select USE_OF
 	select ARM_GIC
 	help
