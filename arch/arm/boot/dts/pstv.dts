@@ -5,6 +5,8 @@
 
 /dts-v1/;
 
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/leds/common.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include "vita.dtsi"
 
@@ -12,7 +14,7 @@
 	chosen {
 		bootargs = "earlyprintk console=tty0 console=ttyS0";
 
-		framebuffer0: framebuffer@20000000 {
+		/*framebuffer0: framebuffer@20000000 {
 			compatible = "simple-framebuffer";
 			reg = <0x20000000 (1280*720*4)>;
 			width = <1280>;
@@ -20,6 +22,6 @@
 			stride = <(1280*4)>;
 			format = "a8b8g8r8";
 			status = "okay";
-		};
+		};*/
 	};
 };
