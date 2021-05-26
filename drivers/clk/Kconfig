@@ -376,6 +376,13 @@ config COMMON_CLK_K210
 	help
 	  Support for the Canaan Kendryte K210 RISC-V SoC clocks.
 
+config COMMON_CLK_VITA
+	bool "Clock driver for the PlayStation Vita"
+	depends on ARCH_VITA && COMMON_CLK
+	default ARCH_VITA
+	help
+	  Support for the PlayStation Vita clock chip
+
 source "drivers/clk/actions/Kconfig"
 source "drivers/clk/analogbits/Kconfig"
 source "drivers/clk/baikal-t1/Kconfig"

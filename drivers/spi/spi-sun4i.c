@@ -79,6 +79,7 @@ struct sun4i_spi {
 	void __iomem		*base_addr;
 	struct clk		*hclk;
 	struct clk		*mclk;
+	struct gpio_desc	*mosi;
 
 	struct completion	done;
 
@@ -307,6 +308,11 @@ static int sun4i_spi_transfer_one(struct spi_master *master,
 	sun4i_spi_write(sspi, SUN4I_BURST_CNT_REG, SUN4I_BURST_CNT(tfr->len));
 	sun4i_spi_write(sspi, SUN4I_XMIT_CNT_REG, SUN4I_XMIT_CNT(tx_len));
 
+	if (sspi->tx_buf && sspi->mosi) {
+		printk("Setting MOSI\n");
+		gpiod_set_value_cansleep(sspi->mosi, true);
+	}
+
 	/*
 	 * Fill the TX FIFO
 	 * Filling the FIFO fully causes timeout for some reason
@@ -342,6 +348,11 @@ static int sun4i_spi_transfer_one(struct spi_master *master,
 
 out:
 	sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
+
+	if (sspi->tx_buf && sspi->mosi) {
+		printk("Removing MOSI\n");
+		gpiod_set_value_cansleep(sspi->mosi, false);
+	}
 
 	return ret;
 }
@@ -481,6 +492,13 @@ static int sun4i_spi_probe(struct platform_device *pdev)
 	if (IS_ERR(sspi->mclk)) {
 		dev_err(&pdev->dev, "Unable to acquire module clock\n");
 		ret = PTR_ERR(sspi->mclk);
+		goto err_free_master;
+	}
+
+	sspi->mosi = devm_gpiod_get_optional(&pdev->dev, "mosi", GPIOD_OUT_HIGH);
+	if (IS_ERR(sspi->mosi)) {
+		dev_err(&pdev->dev, "Error acquiring MOSI GPIO pin\n");
+		ret = PTR_ERR(sspi->mosi);
 		goto err_free_master;
 	}
 
