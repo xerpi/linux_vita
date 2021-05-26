@@ -532,6 +532,12 @@ config TOUCHSCREEN_ELO
 	  To compile this driver as a module, choose M here: the
 	  module will be called elo.
 
+config TOUCHSCREEN_VITA_SYSCON
+	tristate "PlayStation Vita Touchscreen (Syscon SPI)"
+	depends on MFD_VITA_SYSCON
+	help
+	  PlayStation Vita Touchscreen support
+
 config TOUCHSCREEN_WACOM_W8001
 	tristate "Wacom W8001 penabled serial touchscreen"
 	select SERIO

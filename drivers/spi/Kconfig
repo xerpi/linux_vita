@@ -820,7 +820,7 @@ config SPI_ST_SSC4
 
 config SPI_SUN4I
 	tristate "Allwinner A10 SoCs SPI controller"
-	depends on ARCH_SUNXI || COMPILE_TEST
+	depends on ARCH_SUNXI || ARCH_VITA || COMPILE_TEST
 	help
 	  SPI driver for Allwinner sun4i, sun5i and sun7i SoCs
 
@@ -918,6 +918,12 @@ config SPI_UNIPHIER
 	  This driver supports SCSSI only.
 
 	  If your SoC supports SCSSI, say Y here.
+
+config SPI_VITA
+	tristate "PlayStation Vita SPI controller"
+	depends on ARCH_VITA || COMPILE_TEST
+	help
+	  SPI driver for PlayStation Vita.
 
 config SPI_XCOMM
 	tristate "Analog Devices AD-FMCOMMS1-EBZ SPI-I2C-bridge driver"
