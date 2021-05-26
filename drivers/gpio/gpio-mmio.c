@@ -82,12 +82,15 @@ static unsigned long bgpio_read16(void __iomem *reg)
 
 static void bgpio_write32(void __iomem *reg, unsigned long data)
 {
+	//printk("bgpio_write32: reg: 0x%X, data: 0x%X\n", reg, data);
 	writel(data, reg);
 }
 
 static unsigned long bgpio_read32(void __iomem *reg)
 {
-	return readl(reg);
+	unsigned long data = readl(reg);
+	//printk("bgpio_read32: reg: 0x%X, data: 0x%X\n", reg, data);
+	return data;
 }
 
 #if BITS_PER_LONG >= 64
@@ -219,6 +222,8 @@ static void bgpio_set(struct gpio_chip *gc, unsigned int gpio, int val)
 {
 	unsigned long mask = bgpio_line2mask(gc, gpio);
 	unsigned long flags;
+	
+	//printk("bgpio_set: %d to %d\n", gpio, val);
 
 	spin_lock_irqsave(&gc->bgpio_lock, flags);
 
