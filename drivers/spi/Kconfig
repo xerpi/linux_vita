@@ -919,6 +919,12 @@ config SPI_UNIPHIER
 
 	  If your SoC supports SCSSI, say Y here.
 
+config SPI_VITA
+	tristate "PlayStation Vita SPI controller"
+	depends on ARCH_VITA || COMPILE_TEST
+	help
+	  SPI driver for the PlayStation Vita.
+
 config SPI_XCOMM
 	tristate "Analog Devices AD-FMCOMMS1-EBZ SPI-I2C-bridge driver"
 	depends on I2C

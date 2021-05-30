@@ -105,5 +105,82 @@
 			interrupts = <GIC_PPI 13 (GIC_CPU_MASK_RAW(0xF) | IRQ_TYPE_EDGE_RISING)>;
 			clocks = <&refclk144mhz>;
 		};
+
+		gpio0: gpio@e20a0000 {
+			compatible = "vita,gpio";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			reg = <0xe20a0000 0x1000>;
+
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SPI 216 IRQ_TYPE_LEVEL_HIGH
+				      GIC_SPI 217 IRQ_TYPE_LEVEL_HIGH
+				      GIC_SPI 218 IRQ_TYPE_LEVEL_HIGH
+				      GIC_SPI 219 IRQ_TYPE_LEVEL_HIGH
+				      GIC_SPI 220 IRQ_TYPE_LEVEL_HIGH>;
+
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <32>;
+
+			interrupt-controller;
+			#interrupt-cells = <2>;
+
+			resets = <&reset 64>;
+			reset-names = "gpio0_reset";
+		};
+
+		spi0: spi@1c05000 {
+			compatible = "vita,spi";
+			reg = <0xe0a00000 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			resets = <&reset 65>;
+			reset-names = "spi0_reset";
+
+			syscon: syscon@0 {
+				compatible = "vita,syscon";
+				reg = <0>;
+				#address-cells = <0>;
+				#size-cells = <0>;
+
+				interrupt-parent = <&gpio0>;
+				interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
+
+				tx-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+
+				syscon-ts {
+					compatible = "vita,syscon-ts";
+				};
+
+				syscon-buttons {
+					compatible = "vita,syscon-buttons";
+				};
+			};
+
+		};
+
+		reset: reset@e3101000 {
+			compatible = "vita,reset";
+			#reset-cells = <1>;
+			reg = <0xe3101000 0x1000>;
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led-gamecard {
+			label = "gpio-led-gamecard";
+			gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "disk-activity";
+		};
+
+		led-ps-button-blue {
+			label = "gpio-led-ps-button-blue";
+			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
 	};
 };

@@ -258,6 +258,12 @@ config RESET_UNIPHIER_GLUE
 	  on UniPhier SoCs. Say Y if you want to control reset signals
 	  provided by the glue layer.
 
+config RESET_VITA
+	bool "PlayStation Vita reset controller (Pervasive)" if COMPILE_TEST
+	default ARCH_VITA
+	help
+	  This enables the reset controller driver for PlayStation Vita.
+
 config RESET_ZYNQ
 	bool "ZYNQ Reset Driver" if COMPILE_TEST
 	default ARCH_ZYNQ
