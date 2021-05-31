@@ -113,7 +113,7 @@ static int vita_syscon_command_read(struct vita_syscon *syscon, u16 cmd, void *r
 static int vita_syscon_short_command_write(struct vita_syscon *syscon, u16 cmd, u32 data, int cmd_len)
 {
 	u8 tx[SYSCON_TX_HEADER_SIZE + sizeof(u32) + 1];
-	u8 rx[16];
+	u8 rx[32];
 
 	tx[SYSCON_TX_CMD_LO] = cmd & 0xFF;
 	tx[SYSCON_TX_CMD_HI] = (cmd >> 8) & 0xFF;
@@ -123,6 +123,52 @@ static int vita_syscon_short_command_write(struct vita_syscon *syscon, u16 cmd, 
 	tx[SYSCON_TX_DATA(1)] = (data >> 8) & 0xFF;
 	tx[SYSCON_TX_DATA(2)] = (data >> 16) & 0xFF;
 	tx[SYSCON_TX_DATA(3)] = (data >> 24) & 0xFF;
+
+	return vita_syscon_transfer(syscon, tx, rx, sizeof(rx));
+}
+
+static int vita_syscon_scratchpad_read(struct vita_syscon *syscon, u16 offset, void *buffer, int size)
+{
+	u8 tx[SYSCON_TX_HEADER_SIZE + 3 + 1];
+	u8 rx[32];
+	int ret;
+
+	if ((size - 1 >= 0x18) || ((size + offset) >= 0x101))
+		return -EINVAL;
+
+	tx[SYSCON_TX_CMD_LO] = 0x90;
+	tx[SYSCON_TX_CMD_HI] = 0;
+	tx[SYSCON_TX_LENGTH] = 4;
+
+	tx[SYSCON_TX_DATA(0)] = offset & 0xFF;
+	tx[SYSCON_TX_DATA(1)] = (offset >> 8) & 0xFF;
+	tx[SYSCON_TX_DATA(2)] = size;
+
+	ret = vita_syscon_transfer(syscon, tx, rx, sizeof(rx));
+	if (ret < 0)
+		return ret;
+
+	memcpy(buffer, &rx[SYSCON_RX_DATA], size);
+
+	return 0;
+}
+
+static int vita_syscon_scratchpad_write(struct vita_syscon *syscon, u16 offset, const void *buffer, int size)
+{
+	u8 tx[32];
+	u8 rx[32];
+
+	if ((size - 1 >= 0x18) || ((size + offset) >= 0x101))
+		return -EINVAL;
+
+	tx[SYSCON_TX_CMD_LO] = 0x91;
+	tx[SYSCON_TX_CMD_HI] = 0;
+	tx[SYSCON_TX_LENGTH] = size + 4;
+
+	tx[SYSCON_TX_DATA(0)] = offset & 0xFF;
+	tx[SYSCON_TX_DATA(1)] = (offset >> 8) & 0xFF;
+	tx[SYSCON_TX_DATA(2)] = size;
+	memcpy(&tx[SYSCON_TX_DATA(3)], buffer, size);
 
 	return vita_syscon_transfer(syscon, tx, rx, sizeof(rx));
 }
@@ -171,9 +217,11 @@ static int vita_syscon_probe(struct spi_device *spi)
 	spi_set_drvdata(spi, syscon);
 	syscon->dev = &spi->dev;
 	syscon->spi = spi;
+	syscon->transfer = vita_syscon_transfer;
 	syscon->command_read = vita_syscon_command_read;
 	syscon->short_command_write = vita_syscon_short_command_write;
-	syscon->transfer = vita_syscon_transfer;
+	syscon->scratchpad_read = vita_syscon_scratchpad_read;
+	syscon->scratchpad_write = vita_syscon_scratchpad_write;
 
 	ret = vita_syscon_command_read(syscon, 1, baryon_version, sizeof(baryon_version));
 	if (ret < 0) {
