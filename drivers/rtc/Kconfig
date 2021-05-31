@@ -1891,6 +1891,14 @@ config RTC_DRV_ASPEED
 	  This driver can also be built as a module, if so, the module
 	  will be called "rtc-aspeed".
 
+config RTC_DRV_VITA
+	tristate "PlayStation Vita Syscon RTC"
+	depends on ARCH_VITA || COMPILE_TEST
+	help
+	  If you say Y here you will get access to the real time clock
+	  built into the PlayStation Vita Syscon.
+
+
 comment "HID Sensor RTC drivers"
 
 config RTC_DRV_HID_SENSOR_TIME
