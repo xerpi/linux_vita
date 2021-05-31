@@ -34,9 +34,11 @@ struct vita_syscon {
 	struct spi_device *spi;
 	struct gpio_desc *tx_gpio;
 	struct completion rx_irq;
+	int (*transfer)(struct vita_syscon *syscon, u8 *tx, void *rx, int rx_size);
 	int (*command_read)(struct vita_syscon *syscon, u16 cmd, void *rx, int rx_size);
 	int (*short_command_write)(struct vita_syscon *syscon, u16 cmd, u32 data, int cmd_len);
-	int (*transfer)(struct vita_syscon *syscon, u8 *tx, void *rx, int rx_size);
+	int (*scratchpad_read)(struct vita_syscon *syscon, u16 offset, void *buffer, int size);
+	int (*scratchpad_write)(struct vita_syscon *syscon, u16 offset, const void *buffer, int size);
 	/* Syscon info */
 	u32 baryon_version;
 	u32 hardware_info;
