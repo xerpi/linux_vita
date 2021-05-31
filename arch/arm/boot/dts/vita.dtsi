@@ -157,6 +157,10 @@
 				syscon-buttons {
 					compatible = "vita,syscon-buttons";
 				};
+
+				syscon-rtc {
+					compatible = "vita,syscon-rtc";
+				};
 			};
 
 		};
