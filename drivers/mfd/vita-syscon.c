@@ -19,6 +19,10 @@ static const struct mfd_cell vita_syscon_devs[] = {
 		.name = "vita-syscon-buttons",
 		.of_compatible = "vita,syscon-buttons"
 	},
+	{
+		.name = "vita-syscon-rtc",
+		.of_compatible = "vita,syscon-rtc"
+	},
 };
 
 static inline void syscon_set_tx_gpio(struct vita_syscon *syscon, int is_on)

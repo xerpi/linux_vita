@@ -1919,16 +1919,12 @@ config RTC_DRV_ASPEED
 	  This driver can also be built as a module, if so, the module
 	  will be called "rtc-aspeed".
 
-config RTC_DRV_TI_K3
-	tristate "TI K3 RTC"
-	depends on ARCH_K3 || COMPILE_TEST
-	select REGMAP_MMIO
+config RTC_DRV_VITA
+	tristate "PlayStation Vita Syscon RTC"
+	depends on ARCH_VITA || COMPILE_TEST
 	help
-	  If you say yes here you get support for the Texas Instruments's
-	  Real Time Clock for K3 architecture.
-
-	  This driver can also be built as a module, if so, the module
-	  will be called "rtc-ti-k3".
+	  If you say Y here you will get access to the real time clock
+	  built into the PlayStation Vita Syscon.
 
 comment "HID Sensor RTC drivers"
 
